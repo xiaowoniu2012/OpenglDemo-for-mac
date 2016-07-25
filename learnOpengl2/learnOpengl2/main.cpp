@@ -139,7 +139,7 @@ void process() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
     
-    //color
+    //color  间隔 6*sizeof(GLfloat) 大小  ，存储位置：(GLvoid*)(3*sizeof(GLfloat)) 偏移3个(float)位置
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
     
@@ -177,9 +177,16 @@ int main(void)
     
     printf("%s \n\n",glGetString(GL_VERSION)) ;
     
+    
+    //下面两种方式二选一：
+    
+    //1.使用c++类加载shader资源文件
     ZZLShader myshader("/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/vertexShader.vs", "/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/fragmentShader.frag");
     
-//    compileShaders();
+    //2.使用全局的字符串加载shader
+    //compileShaders();
+    
+    
     process();
     
     while (!glfwWindowShouldClose(window))
@@ -198,9 +205,13 @@ int main(void)
         glUniform4f(vertexColorLocation, 0.5f, 0.5f, greenValue, 1.0f);
         
          */
+        //1.使用全局的字符串加载着色器程序方式
+        //glUseProgram(shaderProgram);
         
-//        glUseProgram(shaderProgram);
+        //2.使用C++类加载加载着色器程序方式
         myshader.UseShader();
+        
+        
         glBindVertexArray(VAO[0]);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(VAO[1]);
