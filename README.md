@@ -1,3 +1,6 @@
 # OpenglDemo-for-mac
 openglDemo for mac 
-learn opengl from https://learnopengl-cn.github.io/01%20Getting%20started/05%20Shaders/
+
+opengl shader simple code, draw tow triangles
+
+learn opengl from this page: https://learnopengl-cn.github.io/01%20Getting%20started/05%20Shaders/
