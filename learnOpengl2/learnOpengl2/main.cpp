@@ -179,12 +179,11 @@ int main(void)
     
     
     //下面两种方式二选一：
+    //1.使用全局的字符串加载shader
+    compileShaders();
     
-    //1.使用c++类加载shader资源文件
-    ZZLShader myshader("/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/vertexShader.vs", "/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/fragmentShader.frag");
-    
-    //2.使用全局的字符串加载shader
-    //compileShaders();
+    //2.使用c++类加载shader资源文件
+    //    ZZLShader myshader("/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/vertexShader.vs", "/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/fragmentShader.frag");
     
     
     process();
@@ -206,10 +205,10 @@ int main(void)
         
          */
         //1.使用全局的字符串加载着色器程序方式
-        //glUseProgram(shaderProgram);
+        glUseProgram(shaderProgram);
         
         //2.使用C++类加载加载着色器程序方式
-        myshader.UseShader();
+//        myshader.UseShader();
         
         
         glBindVertexArray(VAO[0]);
