@@ -11,6 +11,7 @@
 #include <math.h>
 #include <OpenGL/gl3.h>
 #include "ZZLShader.hpp"
+#include "SOIL.h"
 const GLchar* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 position;\n"
 "layout (location = 1) in vec3 color;\n"
@@ -41,11 +42,12 @@ const GLchar* fragmentShaderSource = "#version 330 core\n"
 GLuint shaderProgram;
 GLuint VAO[2];
 GLuint VBO[2];
+GLuint texture1;
 GLfloat vertices1[] = {
-    //first
-    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,   // Left
-    0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,// Right
-    0.0f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f,// Top
+    //first               //color               //texture
+    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,0.0f,
+    0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  1.0f,0.0f,
+    0.0f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f,  0.5f,1.0f,
     
     //second
 
@@ -53,9 +55,9 @@ GLfloat vertices1[] = {
 
 GLfloat vertices2[] = {
     
-    0.5f,-0.5f,0.0f, 1.0f, 0.0f, 0.0f,//left
-    1.0f,-0.5f,0.0f, 0.0f, 1.0f, 0.0f,//right
-    0.75f,0.5f,0.0f, 0.0f, 0.0f, 1.0f,//top
+    0.5f,-0.5f,0.0f, 1.0f, 0.0f, 0.0f,0.0f,0.0f,
+    1.0f,-0.5f,0.0f, 0.0f, 1.0f, 0.0f,0.5f,0.0f,
+    0.75f,0.5f,0.0f, 0.0f, 0.0f, 1.0f,0.25f,1.0f,
 };
 
 void compileShaders(void) {
@@ -121,11 +123,15 @@ void process() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
     
     // location
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
     //color
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
+    //texture
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat),(GLvoid *)(6*sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+    
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -136,12 +142,16 @@ void process() {
     glBindVertexArray(VAO[1]);
     glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
     
     //color  间隔 6*sizeof(GLfloat) 大小  ，存储位置：(GLvoid*)(3*sizeof(GLfloat)) 偏移3个(float)位置
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat), (GLvoid*)(3*sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
+    
+    //texture
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8*sizeof(GLfloat),(GLvoid *)(6*sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -149,7 +159,32 @@ void process() {
 
 }
 
+void textureProcess() {
+    
+    
+    glGenTextures(1, &texture1);
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    GLint width,height;
+    unsigned char * image = SOIL_load_image("/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/wall.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    
+    std::cout<<"width is : "<<width<<" height is : "<<height<<std::endl;
+    
+    SOIL_free_image_data(image);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    
+    
 
+}
 
 int main(void)
 {
@@ -180,14 +215,15 @@ int main(void)
     
     //下面两种方式二选一：
     //1.使用全局的字符串加载shader
-    compileShaders();
+//    compileShaders();
     
     //2.使用c++类加载shader资源文件
-    //    ZZLShader myshader("/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/vertexShader.vs", "/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/fragmentShader.frag");
+        ZZLShader myshader("/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/vertexShader.vs", "/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/fragmentShader.frag");
     
     
     process();
     
+    textureProcess();
     while (!glfwWindowShouldClose(window))
     {
         
@@ -205,13 +241,14 @@ int main(void)
         
          */
         //1.使用全局的字符串加载着色器程序方式
-        glUseProgram(shaderProgram);
+//        glUseProgram(shaderProgram);
         
         //2.使用C++类加载加载着色器程序方式
-//        myshader.UseShader();
+        myshader.UseShader();
         
         
         glBindVertexArray(VAO[0]);
+        glBindTexture(GL_TEXTURE_2D, texture1);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(VAO[1]);
         glDrawArrays(GL_TRIANGLES, 0, 3);

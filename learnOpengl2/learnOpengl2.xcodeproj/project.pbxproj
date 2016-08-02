@@ -16,6 +16,7 @@
 		7B0B261C1D46534D00254F3F /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B0B261B1D46534D00254F3F /* GLKit.framework */; };
 		7B0B261F1D46831E00254F3F /* ZZLShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B0B261D1D46831E00254F3F /* ZZLShader.cpp */; };
 		7B0B26291D46944400254F3F /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B0B26281D46944400254F3F /* libglfw3.a */; };
+		7B3B7B981D50578B00113742 /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3B7B971D50578B00113742 /* libSOIL.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +47,9 @@
 		7B0B26251D46944400254F3F /* glfw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
 		7B0B26261D46944400254F3F /* glfw3native.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3native.h; sourceTree = "<group>"; };
 		7B0B26281D46944400254F3F /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
+		7B3B7B951D50578B00113742 /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
+		7B3B7B971D50578B00113742 /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSOIL.a; sourceTree = "<group>"; };
+		7B3B7B991D50937300113742 /* wall.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wall.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,7 @@
 				7B0B261A1D4652CF00254F3F /* IOKit.framework in Frameworks */,
 				7B0B26161D46519700254F3F /* GLUT.framework in Frameworks */,
 				7B0B26141D46518B00254F3F /* Cocoa.framework in Frameworks */,
+				7B3B7B981D50578B00113742 /* libSOIL.a in Frameworks */,
 				7B0B26121D46518300254F3F /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,6 +97,8 @@
 		7B0B26021D46515A00254F3F /* learnOpengl2 */ = {
 			isa = PBXGroup;
 			children = (
+				7B3B7B991D50937300113742 /* wall.jpg */,
+				7B3B7B931D50578B00113742 /* soillib */,
 				7B0B26201D468C3E00254F3F /* shaderFiles */,
 				7B0B26031D46515A00254F3F /* main.cpp */,
 				7B0B261D1D46831E00254F3F /* ZZLShader.cpp */,
@@ -131,6 +138,31 @@
 			isa = PBXGroup;
 			children = (
 				7B0B26281D46944400254F3F /* libglfw3.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		7B3B7B931D50578B00113742 /* soillib */ = {
+			isa = PBXGroup;
+			children = (
+				7B3B7B941D50578B00113742 /* include */,
+				7B3B7B961D50578B00113742 /* lib */,
+			);
+			path = soillib;
+			sourceTree = "<group>";
+		};
+		7B3B7B941D50578B00113742 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7B3B7B951D50578B00113742 /* SOIL.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7B3B7B961D50578B00113742 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				7B3B7B971D50578B00113742 /* libSOIL.a */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -287,6 +319,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../glfw_sdk/lib\"/**",
 					"$(PROJECT_DIR)/glfw_sdk/lib",
+					"$(PROJECT_DIR)/learnOpengl2/soillib/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -299,6 +332,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../glfw_sdk/lib\"/**",
 					"$(PROJECT_DIR)/glfw_sdk/lib",
+					"$(PROJECT_DIR)/learnOpengl2/soillib/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -323,6 +357,7 @@
 				7B0B26091D46515A00254F3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
