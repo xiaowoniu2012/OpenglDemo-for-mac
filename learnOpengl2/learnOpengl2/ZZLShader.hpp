@@ -24,7 +24,6 @@ public:
     // 使用程序
     void UseShader();
     
-private:
     // program id
     GLuint programId;
 };

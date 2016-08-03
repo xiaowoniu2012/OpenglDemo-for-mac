@@ -12,6 +12,9 @@
 #include <OpenGL/gl3.h>
 #include "ZZLShader.hpp"
 #include "SOIL.h"
+#include "glm.hpp"
+#include "matrix_transform.hpp"
+#include "type_ptr.hpp"
 const GLchar* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 position;\n"
 "layout (location = 1) in vec3 color;\n"
@@ -22,14 +25,6 @@ const GLchar* vertexShaderSource = "#version 330 core\n"
 "fragmentColor = vec4(color,1.0f);\n"
 "}\0";
 
-//const GLchar* fragmentShaderSource = "#version 330 core\n"
-////"in vec4 fragmentColor;\n"
-//"uniform vec4 changeColor;\n"
-//"out vec4 color;\n"
-//"void main()\n"
-//"{\n"
-//"color = changeColor;\n"
-//"}\n\0";
 
 const GLchar* fragmentShaderSource = "#version 330 core\n"
 "in vec4 fragmentColor;\n"
@@ -172,11 +167,11 @@ void textureProcess() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     GLint width,height;
-    unsigned char * image = SOIL_load_image("/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/wall.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+    unsigned char * image = SOIL_load_image("/Users/smart/Documents/learn/opengl/OpenglDemo-for-mac/learnOpengl2/learnOpengl2/wall.jpg", &width, &height, 0, SOIL_LOAD_RGB);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D);
     
-    std::cout<<"width is : "<<width<<" height is : "<<height<<std::endl;
+    std::cout<<"resource image  width is : "<<width<<" height is : "<<height<<std::endl;
     
     SOIL_free_image_data(image);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -218,8 +213,9 @@ int main(void)
 //    compileShaders();
     
     //2.使用c++类加载shader资源文件
-        ZZLShader myshader("/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/vertexShader.vs", "/Users/xiaowoniu/Documents/OpenglProgramming/learnOpengl/learnOpengl2/learnOpengl2/shaderFiles/fragmentShader.frag");
-    
+        ZZLShader myshader("/Users/smart/Documents/learn/opengl/OpenglDemo-for-mac/learnOpengl2/learnOpengl2/shaderFiles/vertexShader.vs", "/Users/smart/Documents/learn/opengl/OpenglDemo-for-mac/learnOpengl2/learnOpengl2/shaderFiles/fragmentShader.frag");
+    //
+   
     
     process();
     
@@ -243,8 +239,21 @@ int main(void)
         //1.使用全局的字符串加载着色器程序方式
 //        glUseProgram(shaderProgram);
         
+        
         //2.使用C++类加载加载着色器程序方式
         myshader.UseShader();
+        
+        // transform
+        glm::mat4 trans;
+        GLfloat timeValue = glfwGetTime();
+        GLfloat greenValue = sin(timeValue)/2 + 0.5f;
+//
+//        trans = glm::scale(trans, glm::vec3(greenValue,greenValue,0.0f));
+        trans = glm::rotate(trans, (GLfloat)glfwGetTime() * 2.0f, glm::vec3(0.0,0.0,1.0f));
+        trans = glm::translate(trans, glm::vec3(greenValue,greenValue,0.0f));
+        GLuint transfromLoc = glGetUniformLocation(myshader.programId, "transform");
+        glUniformMatrix4fv(transfromLoc, 1, GL_FALSE, glm::value_ptr(trans));
+        
         
         
         glBindVertexArray(VAO[0]);
