@@ -36,11 +36,11 @@ const GLchar* fragmentShaderSource = "#version 330 core\n"
 "}\n\0";
 
 GLuint shaderProgram;
-GLuint VAO[2];
-GLuint VBO[2];
+GLuint VAO[3];
+GLuint VBO[3];
 GLuint texture1;
 
-GLfloat field_of_view = 10.0f;
+GLfloat field_of_view = 45.0f;
 
 GLfloat vertices1[] = {
     //first               //color               //texture
@@ -163,8 +163,10 @@ void compileShaders(void) {
 
 void process() {
     
-    glGenVertexArrays(2, VAO);
-    glGenBuffers(2, VBO);
+    glGenVertexArrays(1, VAO);
+    glGenBuffers(1, VBO);
+    
+    
     
     glBindVertexArray(VAO[0]);
     glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
@@ -203,6 +205,25 @@ void process() {
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+     
+    
+    
+    
+    
+    // cube
+    glBindVertexArray(VAO[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+    
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
+    glEnableVertexAttribArray(0);
+    // TexCoord attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+    
+    glBindVertexArray(0); // Unbind VAO
+    
     
 
 }
@@ -298,7 +319,7 @@ int main(void)
     {
         
         glClearColor(0.2, 0.2, 0.2, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         /*  use uniform global var..
          
@@ -336,7 +357,7 @@ int main(void)
         glm::mat4 viewMatrix;
         glm::mat4 perspectiveMatrix;
         
-        modeMatrix = glm::rotate(modeMatrix, glm::radians(-45.0f), glm::vec3(1.0f,0.0,0.0));
+        modeMatrix = glm::rotate(modeMatrix, glm::radians(55.0f), glm::vec3(1.0f,0.0,0.0));
         viewMatrix = glm::translate(viewMatrix, glm::vec3(0.0,0.0,-3.0));
         perspectiveMatrix = glm::perspective(glm::radians(field_of_view), (GLfloat)(640.0/480.0), 0.1f, 100.0f);
         
@@ -350,15 +371,17 @@ int main(void)
         
         
         
-        
-        
-        
-        
         glBindVertexArray(VAO[0]);
         glBindTexture(GL_TEXTURE_2D, texture1);
         glDrawArrays(GL_TRIANGLES, 0, 3);
+        
+        
         glBindVertexArray(VAO[1]);
         glDrawArrays(GL_TRIANGLES, 0, 3);
+    
+
+        glBindVertexArray(VAO[0]);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
         glfwSwapBuffers(window);
         
@@ -366,8 +389,8 @@ int main(void)
         glfwPollEvents();
     }
     glDeleteProgram(shaderProgram);
-    glDeleteVertexArrays(2, VAO);
-    glDeleteBuffers(2, VBO);
+    glDeleteVertexArrays(3, VAO);
+    glDeleteBuffers(3, VBO);
     
     glfwTerminate();
     return 0;
