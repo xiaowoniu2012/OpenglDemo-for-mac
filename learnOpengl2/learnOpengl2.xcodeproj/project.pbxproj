@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A458F5B1D532A1A00E09A9D /* imageUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A458F521D532A1A00E09A9D /* imageUtil.m */; };
+		2A458F5C1D532A1A00E09A9D /* matrixUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A458F531D532A1A00E09A9D /* matrixUtil.c */; };
+		2A458F5D1D532A1A00E09A9D /* modelUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A458F551D532A1A00E09A9D /* modelUtil.c */; };
+		2A458F5E1D532A1A00E09A9D /* sourceUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A458F571D532A1A00E09A9D /* sourceUtil.c */; };
+		2A458F5F1D532A1A00E09A9D /* vectorUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A458F591D532A1A00E09A9D /* vectorUtil.c */; };
 		2A5369071D51AFE70081DD77 /* wall.jpg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B3B7B991D50937300113742 /* wall.jpg */; };
 		2A5369081D51AFE70081DD77 /* vertexShader.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B0B26211D468C6C00254F3F /* vertexShader.vs */; };
 		2A5369091D51AFE70081DD77 /* fragmentShader.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B0B26221D468CD100254F3F /* fragmentShader.frag */; };
@@ -39,6 +44,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A458F501D532A1A00E09A9D /* glUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glUtil.h; sourceTree = "<group>"; };
+		2A458F511D532A1A00E09A9D /* imageUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageUtil.h; sourceTree = "<group>"; };
+		2A458F521D532A1A00E09A9D /* imageUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageUtil.m; sourceTree = "<group>"; };
+		2A458F531D532A1A00E09A9D /* matrixUtil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = matrixUtil.c; sourceTree = "<group>"; };
+		2A458F541D532A1A00E09A9D /* matrixUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrixUtil.h; sourceTree = "<group>"; };
+		2A458F551D532A1A00E09A9D /* modelUtil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = modelUtil.c; sourceTree = "<group>"; };
+		2A458F561D532A1A00E09A9D /* modelUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modelUtil.h; sourceTree = "<group>"; };
+		2A458F571D532A1A00E09A9D /* sourceUtil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sourceUtil.c; sourceTree = "<group>"; };
+		2A458F581D532A1A00E09A9D /* sourceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourceUtil.h; sourceTree = "<group>"; };
+		2A458F591D532A1A00E09A9D /* vectorUtil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vectorUtil.c; sourceTree = "<group>"; };
+		2A458F5A1D532A1A00E09A9D /* vectorUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vectorUtil.h; sourceTree = "<group>"; };
 		2A536A141D51F5410081DD77 /* glfw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
 		2A536A151D51F5410081DD77 /* glfw3native.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3native.h; sourceTree = "<group>"; };
 		2A536A171D51F5410081DD77 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
@@ -331,6 +347,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A458F4F1D532A1A00E09A9D /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				2A458F501D532A1A00E09A9D /* glUtil.h */,
+				2A458F511D532A1A00E09A9D /* imageUtil.h */,
+				2A458F521D532A1A00E09A9D /* imageUtil.m */,
+				2A458F531D532A1A00E09A9D /* matrixUtil.c */,
+				2A458F541D532A1A00E09A9D /* matrixUtil.h */,
+				2A458F551D532A1A00E09A9D /* modelUtil.c */,
+				2A458F561D532A1A00E09A9D /* modelUtil.h */,
+				2A458F571D532A1A00E09A9D /* sourceUtil.c */,
+				2A458F581D532A1A00E09A9D /* sourceUtil.h */,
+				2A458F591D532A1A00E09A9D /* vectorUtil.c */,
+				2A458F5A1D532A1A00E09A9D /* vectorUtil.h */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		2A536A121D51F5410081DD77 /* glfw_sdk */ = {
 			isa = PBXGroup;
 			children = (
@@ -667,6 +701,7 @@
 		7B0B26021D46515A00254F3F /* learnOpengl2 */ = {
 			isa = PBXGroup;
 			children = (
+				2A458F4F1D532A1A00E09A9D /* Utility */,
 				2A536C251D520DFF0081DD77 /* glm */,
 				7B3B7B991D50937300113742 /* wall.jpg */,
 				7B3B7B931D50578B00113742 /* soillib */,
@@ -769,8 +804,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A536D281D520DFF0081DD77 /* glm.cpp in Sources */,
+				2A458F5E1D532A1A00E09A9D /* sourceUtil.c in Sources */,
+				2A458F5D1D532A1A00E09A9D /* modelUtil.c in Sources */,
 				7B0B26041D46515A00254F3F /* main.cpp in Sources */,
 				7B0B261F1D46831E00254F3F /* ZZLShader.cpp in Sources */,
+				2A458F5B1D532A1A00E09A9D /* imageUtil.m in Sources */,
+				2A458F5F1D532A1A00E09A9D /* vectorUtil.c in Sources */,
+				2A458F5C1D532A1A00E09A9D /* matrixUtil.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

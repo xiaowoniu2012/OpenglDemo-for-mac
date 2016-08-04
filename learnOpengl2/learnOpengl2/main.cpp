@@ -15,6 +15,7 @@
 #include "glm.hpp"
 #include "matrix_transform.hpp"
 #include "type_ptr.hpp"
+
 const GLchar* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 position;\n"
 "layout (location = 1) in vec3 color;\n"
@@ -38,6 +39,9 @@ GLuint shaderProgram;
 GLuint VAO[2];
 GLuint VBO[2];
 GLuint texture1;
+
+GLfloat field_of_view = 10.0f;
+
 GLfloat vertices1[] = {
     //first               //color               //texture
     -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,0.0f,
@@ -54,6 +58,54 @@ GLfloat vertices2[] = {
     1.0f,-0.5f,0.0f, 0.0f, 1.0f, 0.0f,0.5f,0.0f,
     0.75f,0.5f,0.0f, 0.0f, 0.0f, 1.0f,0.25f,1.0f,
 };
+
+GLfloat cubeVertices[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    
+    0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+    0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
+
+
+// Function prototypes
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 void compileShaders(void) {
     //创建顶点着色器对象 vertexShader
@@ -104,6 +156,7 @@ void compileShaders(void) {
     //删除着色器对象
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+    
     
 }
 
@@ -167,7 +220,9 @@ void textureProcess() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     GLint width,height;
-    unsigned char * image = SOIL_load_image("/Users/smart/Documents/learn/opengl/OpenglDemo-for-mac/learnOpengl2/learnOpengl2/wall.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+   
+//    unsigned char * image = SOIL_load_image("/Users/smart/Documents/learn/opengl/OpenglDemo-for-mac/learnOpengl2/learnOpengl2/wall.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+    unsigned char * image = SOIL_load_image("wall.jpg",&width, &height, 0, SOIL_LOAD_RGB);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D);
     
@@ -181,6 +236,9 @@ void textureProcess() {
 
 }
 
+
+
+
 int main(void)
 {
     GLFWwindow* window;
@@ -188,10 +246,10 @@ int main(void)
     if (!glfwInit())
         return -1;
     
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     
     
@@ -205,7 +263,18 @@ int main(void)
     
     glfwMakeContextCurrent(window);
     
+    // Set the required callback functions
+    glfwSetKeyCallback(window, key_callback);
+    
+    // Setup OpenGL options
+//    glEnable(GL_DEPTH_TEST);
+    
+    // Define the viewport dimensions
+    glViewport(0, 0, 640, 480);
+    
     printf("%s \n\n",glGetString(GL_VERSION)) ;
+    
+
     
     
     //下面两种方式二选一：
@@ -213,7 +282,12 @@ int main(void)
 //    compileShaders();
     
     //2.使用c++类加载shader资源文件
-        ZZLShader myshader("/Users/smart/Documents/learn/opengl/OpenglDemo-for-mac/learnOpengl2/learnOpengl2/shaderFiles/vertexShader.vs", "/Users/smart/Documents/learn/opengl/OpenglDemo-for-mac/learnOpengl2/learnOpengl2/shaderFiles/fragmentShader.frag");
+    
+    
+
+    
+    
+        ZZLShader myshader("./shaderFiles/vertexShader.vs", "./shaderFiles/fragmentShader.frag");
     //
    
     
@@ -244,6 +318,7 @@ int main(void)
         myshader.UseShader();
         
         // transform
+        /*
         glm::mat4 trans;
         GLfloat timeValue = glfwGetTime();
         GLfloat greenValue = sin(timeValue)/2 + 0.5f;
@@ -253,6 +328,29 @@ int main(void)
         trans = glm::translate(trans, glm::vec3(greenValue,greenValue,0.0f));
         GLuint transfromLoc = glGetUniformLocation(myshader.programId, "transform");
         glUniformMatrix4fv(transfromLoc, 1, GL_FALSE, glm::value_ptr(trans));
+        
+        */
+        
+        
+        glm::mat4 modeMatrix;
+        glm::mat4 viewMatrix;
+        glm::mat4 perspectiveMatrix;
+        
+        modeMatrix = glm::rotate(modeMatrix, glm::radians(-45.0f), glm::vec3(1.0f,0.0,0.0));
+        viewMatrix = glm::translate(viewMatrix, glm::vec3(0.0,0.0,-3.0));
+        perspectiveMatrix = glm::perspective(glm::radians(field_of_view), (GLfloat)(640.0/480.0), 0.1f, 100.0f);
+        
+        GLuint modelLocal = glGetUniformLocation(myshader.programId, "modeMatrix");
+        GLuint viewLocal = glGetUniformLocation(myshader.programId, "viewMatrix");
+        GLuint perspectiveLocal = glGetUniformLocation(myshader.programId, "perspectiveMatrix");
+        
+        glUniformMatrix4fv(modelLocal, 1, GL_FALSE, glm::value_ptr(modeMatrix));
+        glUniformMatrix4fv(viewLocal, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+        glUniformMatrix4fv(perspectiveLocal, 1, GL_FALSE, glm::value_ptr(perspectiveMatrix));
+        
+        
+        
+        
         
         
         
@@ -275,5 +373,15 @@ int main(void)
     return 0;
 }
 
-
+// Is called whenever a key is pressed/released via GLFW
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+        field_of_view+=3.0f;
+    }else if (key == GLFW_KEY_UP && action ==GLFW_PRESS) {
+        field_of_view-=3.0f;
+    }
+}
 
