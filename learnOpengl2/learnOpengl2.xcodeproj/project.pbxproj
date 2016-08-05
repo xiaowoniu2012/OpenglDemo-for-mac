@@ -12,6 +12,7 @@
 		2A458F5D1D532A1A00E09A9D /* modelUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A458F551D532A1A00E09A9D /* modelUtil.c */; };
 		2A458F5E1D532A1A00E09A9D /* sourceUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A458F571D532A1A00E09A9D /* sourceUtil.c */; };
 		2A458F5F1D532A1A00E09A9D /* vectorUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A458F591D532A1A00E09A9D /* vectorUtil.c */; };
+		2A46F9361D54916600D8F606 /* lightDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A46F9341D54916600D8F606 /* lightDemo.cpp */; };
 		2A5369071D51AFE70081DD77 /* wall.jpg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B3B7B991D50937300113742 /* wall.jpg */; };
 		2A5369081D51AFE70081DD77 /* vertexShader.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B0B26211D468C6C00254F3F /* vertexShader.vs */; };
 		2A5369091D51AFE70081DD77 /* fragmentShader.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B0B26221D468CD100254F3F /* fragmentShader.frag */; };
@@ -55,6 +56,9 @@
 		2A458F581D532A1A00E09A9D /* sourceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourceUtil.h; sourceTree = "<group>"; };
 		2A458F591D532A1A00E09A9D /* vectorUtil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vectorUtil.c; sourceTree = "<group>"; };
 		2A458F5A1D532A1A00E09A9D /* vectorUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vectorUtil.h; sourceTree = "<group>"; };
+		2A46F9341D54916600D8F606 /* lightDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lightDemo.cpp; sourceTree = "<group>"; };
+		2A46F9351D54916600D8F606 /* lightDemo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lightDemo.hpp; sourceTree = "<group>"; };
+		2A46F9371D54943800D8F606 /* Carmer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Carmer.hpp; sourceTree = "<group>"; };
 		2A536A141D51F5410081DD77 /* glfw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
 		2A536A151D51F5410081DD77 /* glfw3native.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3native.h; sourceTree = "<group>"; };
 		2A536A171D51F5410081DD77 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw3.a; sourceTree = "<group>"; };
@@ -363,6 +367,15 @@
 				2A458F5A1D532A1A00E09A9D /* vectorUtil.h */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		2A46F9331D54914A00D8F606 /* lightFiles */ = {
+			isa = PBXGroup;
+			children = (
+				2A46F9341D54916600D8F606 /* lightDemo.cpp */,
+				2A46F9351D54916600D8F606 /* lightDemo.hpp */,
+			);
+			path = lightFiles;
 			sourceTree = "<group>";
 		};
 		2A536A121D51F5410081DD77 /* glfw_sdk */ = {
@@ -701,6 +714,7 @@
 		7B0B26021D46515A00254F3F /* learnOpengl2 */ = {
 			isa = PBXGroup;
 			children = (
+				2A46F9331D54914A00D8F606 /* lightFiles */,
 				2A458F4F1D532A1A00E09A9D /* Utility */,
 				2A536C251D520DFF0081DD77 /* glm */,
 				7B3B7B991D50937300113742 /* wall.jpg */,
@@ -709,6 +723,7 @@
 				7B0B26031D46515A00254F3F /* main.cpp */,
 				7B0B261D1D46831E00254F3F /* ZZLShader.cpp */,
 				7B0B261E1D46831E00254F3F /* ZZLShader.hpp */,
+				2A46F9371D54943800D8F606 /* Carmer.hpp */,
 			);
 			path = learnOpengl2;
 			sourceTree = "<group>";
@@ -804,6 +819,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A536D281D520DFF0081DD77 /* glm.cpp in Sources */,
+				2A46F9361D54916600D8F606 /* lightDemo.cpp in Sources */,
 				2A458F5E1D532A1A00E09A9D /* sourceUtil.c in Sources */,
 				2A458F5D1D532A1A00E09A9D /* modelUtil.c in Sources */,
 				7B0B26041D46515A00254F3F /* main.cpp in Sources */,

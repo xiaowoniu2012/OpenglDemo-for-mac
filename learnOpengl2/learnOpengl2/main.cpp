@@ -103,6 +103,19 @@ GLfloat cubeVertices[] = {
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
+glm::vec3 cubePositions[] = {
+    glm::vec3( 0.0f,  0.0f,  0.0f),
+    glm::vec3( 2.0f,  5.0f, -15.0f),
+    glm::vec3(-1.5f, -2.2f, -2.5f),
+    glm::vec3(-3.8f, -2.0f, -12.3f),
+    glm::vec3( 2.4f, -0.4f, -3.5f),
+    glm::vec3(-1.7f,  3.0f, -7.5f),
+    glm::vec3( 1.3f, -2.0f, -2.5f),
+    glm::vec3( 1.5f,  2.0f, -2.5f),
+    glm::vec3( 1.5f,  0.2f, -1.5f),
+    glm::vec3(-1.3f,  1.0f, -1.5f)
+};
+
 
 // Function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -163,8 +176,8 @@ void compileShaders(void) {
 
 void process() {
     
-    glGenVertexArrays(1, VAO);
-    glGenBuffers(1, VBO);
+    glGenVertexArrays(3, VAO);
+    glGenBuffers(3, VBO);
     
     
     
@@ -211,8 +224,8 @@ void process() {
     
     
     // cube
-    glBindVertexArray(VAO[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+    glBindVertexArray(VAO[2]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
     
     // Position attribute
@@ -287,11 +300,14 @@ int main(void)
     // Set the required callback functions
     glfwSetKeyCallback(window, key_callback);
     
-    // Setup OpenGL options
-//    glEnable(GL_DEPTH_TEST);
+
     
     // Define the viewport dimensions
     glViewport(0, 0, 640, 480);
+    
+    // Setup OpenGL options
+    glEnable(GL_DEPTH_TEST);
+    
     
     printf("%s \n\n",glGetString(GL_VERSION)) ;
     
@@ -357,15 +373,19 @@ int main(void)
         glm::mat4 viewMatrix;
         glm::mat4 perspectiveMatrix;
         
-        modeMatrix = glm::rotate(modeMatrix, glm::radians(55.0f), glm::vec3(1.0f,0.0,0.0));
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(0.0,0.0,-3.0));
+
+//        viewMatrix = glm::translate(viewMatrix, glm::vec3(0.0,0.0,-3.0));
+        GLfloat camX = sinf(glfwGetTime())*10.0f;
+        GLfloat camZ = cos(glfwGetTime())*10.0f;
+        
+        viewMatrix = glm::lookAt(glm::vec3(camX,0.0f,camZ), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,1.0f,0.0f));
         perspectiveMatrix = glm::perspective(glm::radians(field_of_view), (GLfloat)(640.0/480.0), 0.1f, 100.0f);
         
         GLuint modelLocal = glGetUniformLocation(myshader.programId, "modeMatrix");
         GLuint viewLocal = glGetUniformLocation(myshader.programId, "viewMatrix");
         GLuint perspectiveLocal = glGetUniformLocation(myshader.programId, "perspectiveMatrix");
         
-        glUniformMatrix4fv(modelLocal, 1, GL_FALSE, glm::value_ptr(modeMatrix));
+        
         glUniformMatrix4fv(viewLocal, 1, GL_FALSE, glm::value_ptr(viewMatrix));
         glUniformMatrix4fv(perspectiveLocal, 1, GL_FALSE, glm::value_ptr(perspectiveMatrix));
         
@@ -380,8 +400,14 @@ int main(void)
         glDrawArrays(GL_TRIANGLES, 0, 3);
     
 
-        glBindVertexArray(VAO[0]);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(VAO[2]);
+        for (GLuint i= 0; i<10; i++) {
+            modeMatrix = glm::translate(modeMatrix, cubePositions[i]*0.3f);
+//            modeMatrix = glm::rotate(modeMatrix, (GLfloat)glm::radians(glfwGetTime()*100), glm::vec3(0.5f,0.5,0.5));
+            glUniformMatrix4fv(modelLocal, 1, GL_FALSE, glm::value_ptr(modeMatrix));
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+        
         glBindVertexArray(0);
         glfwSwapBuffers(window);
         
@@ -401,9 +427,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
-    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+    else if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) {
         field_of_view+=3.0f;
-    }else if (key == GLFW_KEY_UP && action ==GLFW_PRESS) {
+    }else if (key == GLFW_KEY_UP && action == GLFW_REPEAT) {
         field_of_view-=3.0f;
     }
 }

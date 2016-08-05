@@ -16,8 +16,8 @@ uniform mat4 perspectiveMatrix;
 void main() {
 //    gl_Position = transform*vec4(position, 1.0f);
     gl_Position = perspectiveMatrix * viewMatrix * modeMatrix *vec4(position,1.0f);
-    fragmentColor = vec4(color,1.0f);
-    TexCoord = texCoord;
+    fragmentColor = vec4(1.0,1.0,1.0,1.0f);
+    TexCoord = vec2(texCoord.x,1.0-texCoord.y);
 }
 
 
