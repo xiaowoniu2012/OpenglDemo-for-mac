@@ -7,5 +7,6 @@ learn opengl from this page: https://learnopengl-cn.github.io/01%20Getting%20sta
 
 
 
-set something
+set something ,how it works.
 
+where are they?
